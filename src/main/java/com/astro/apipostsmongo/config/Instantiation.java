@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.astro.apipostsmongo.domain.Post;
 import com.astro.apipostsmongo.domain.User;
 import com.astro.apipostsmongo.dto.AuthorDTO;
+import com.astro.apipostsmongo.dto.CommentDTO;
 import com.astro.apipostsmongo.repository.PostRepository;
 import com.astro.apipostsmongo.repository.UserRepository;
 
@@ -40,11 +41,16 @@ public class Instantiation implements CommandLineRunner {
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
 		
 		Post post1 = new Post(null, sdf.parse("21/11/2022"), "Partiu viagem", "Vou viajar para são paulo. Abraços!", new AuthorDTO(maria));
-		
 		Post post2 = new Post(null, sdf.parse("20/11/2022"), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(maria));
-		
 		Post post3 = new Post(null, sdf.parse("19/11/2022"), "Programando", "Criando uma api", new AuthorDTO(bob));
 	
+		CommentDTO c1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/11/2022"), new AuthorDTO(alex));
+		CommentDTO c2 = new CommentDTO("Aproveite", sdf.parse("22/11/2022"), new AuthorDTO(bob));
+		CommentDTO c3 = new CommentDTO("Tenha um ótimo dia!", sdf.parse("22/11/2022"), new AuthorDTO(alex));
+		
+		post1.getComments().addAll(Arrays.asList(c1, c2));
+		post2.getComments().addAll(Arrays.asList(c3));
+		
 		postRepository.saveAll(Arrays.asList(post1, post2, post3));
 		
 		maria.getPosts().addAll(Arrays.asList(post1, post2));
